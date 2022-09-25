@@ -19,7 +19,6 @@ namespace NLayerEmarket.Web.Controllers
 
         public IActionResult Index()
         {
-            Get();
             return View();
         }
 
