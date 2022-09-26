@@ -37,7 +37,7 @@ namespace NLayerEmarket.Web.Controllers
                 List<ProductVM> productVMList = _mapper.Map<List<ProductVM>>(productList);
                 return productVMList;
             }
-            tcatch (Exception)
+            catch (Exception)
             {
                 return null;
                 throw;
