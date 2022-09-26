@@ -17,7 +17,7 @@ namespace NLayerEmarket.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            services.AddDbContext<NLayerEmarketDbContext>(options => options.UseSqlServer("Data Source=ORSAPC;Initial Catalog=NLayerEmarket;Integrated Security=True;"), ServiceLifetime.Singleton);
+            services.AddDbContext<NLayerEmarketDbContext>(options => options.UseSqlServer("Data Source=DESKTOP-24BVTVJ;Initial Catalog=NLayerEmarket;Integrated Security=True;"), ServiceLifetime.Singleton);
 
             services.AddSingleton<IUserReadRepository,UserReadRepository>();
             services.AddSingleton<IUserWriteRepository,UserWriteRepository>();
