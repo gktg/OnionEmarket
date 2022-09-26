@@ -10,13 +10,13 @@ namespace NLayerEmarket.Application.Repositories
 {
     public interface IReadRepository<T> : IRepository<T> where T : BaseEntity
     {
-        IQueryable<T> GetAll(); // get all entities
+        IQueryable<T> GetAll(bool tracking = true); // get all entities
 
-        IQueryable<T> GetWhere(Expression<Func<T,bool>> method);
+        IQueryable<T> GetWhere(Expression<Func<T,bool>> method, bool tracking = true);
 
-        Task<T> GetSingleAsync (Expression<Func<T, bool>> method); // get single entity
+        Task<T> GetSingleAsync (Expression<Func<T, bool>> method, bool tracking = true); // get single entity
 
-        Task<T> GetByIdAsync (string id);    
+        Task<T> GetByIdAsync (string id, bool tracking = true);    
         
     }
 }

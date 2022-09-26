@@ -9,14 +9,15 @@ namespace NLayerEmarket.Domain.Entities
 {
     public class Product: BaseEntity
     {
+        public virtual Category Category { get; set; }
+
         public string Name { get; set; }
 
         public int Stock { get; set; }
 
-        public long Price { get; set; }
+        public float Price { get; set; }
 
         public string Media { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
     }
 }

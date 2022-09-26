@@ -17,16 +17,18 @@ namespace NLayerEmarket.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            services.AddDbContext<NLayerEmarketDbContext>(options => options.UseSqlServer("Data Source=GKTGPC;Initial Catalog=NLayerEmarket;Integrated Security=True;"),ServiceLifetime.Singleton);
+            services.AddDbContext<NLayerEmarketDbContext>(options => options.UseSqlServer("Data Source=ORSAPC;Initial Catalog=NLayerEmarket;Integrated Security=True;"), ServiceLifetime.Singleton);
 
-            services.AddSingleton<ICustomerReadRepository,CustomerReadRepository>();
-            services.AddSingleton<ICustomerrWriteRepository,CustomerWriteRepository>();
+            services.AddSingleton<IUserReadRepository,UserReadRepository>();
+            services.AddSingleton<IUserWriteRepository,UserWriteRepository>();
                      
             services.AddSingleton<IProductReadRepository, ProductReadRepository>();
             services.AddSingleton<IProductWriteRepository, ProductWriteRepository>();
+
+            services.AddSingleton<ICategoryReadRepository, CategoryReadRepository>();
+            services.AddSingleton<ICategoryWriteRepository, CategoryWriteRepository>();
                      
-            services.AddSingleton<IOrderReadRepository, OrderReadRepository>();
-            services.AddSingleton<IOrderWriteRepository, OrderWriteRepository>();
+
 
             
         }

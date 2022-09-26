@@ -1,49 +1,98 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.Extensions.Options;
+
+@inject IHttpContextAccessor Accessor
+
+
+@{
+    string path = Context.Request.Path;
+    string url = path.Split("/").Last();
+
+
+    if (int.TryParse(url, out int value))
+    {
+        string[] url2 = path.Split("/");
+        url = url2[1];
+    };
+
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
+    <title>@ViewData["Title"] E-Market</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NLayerEmarket.Web.styles.css" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/dist/css/adminlte.css" rel="stylesheet" />
+    <link href="~/lib/AdminLTE/plugins/fontawesome-free/css/all.css" rel="stylesheet" />
+    <script src="~/lib/AdminLTE/plugins/jquery/jquery.js"></script>
+    <script src="~/lib/AdminLTE/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/toastr/toastr.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/select2/js/select2.js"></script>
+    <link href="~/lib/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/select2.css" rel="stylesheet" />
+
+    <link type="text/css" href="~/lib/AdminLTE/plugins/toastr/toastr.css" rel="stylesheet" />
+
+
+
+    <script src="~/js/tools.js" asp-append-version="true"></script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NLayerEmarket.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+    @if (url != "ForgotPass" && url != "Register" && url != "ResetPass" && url != "Login" && url != "")
+    {
+        <header class="p-3 mb-3 border-bottom">
+            <div>
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                    </a>
+
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a class="nav-link px-2 link-dark" href="/products/Products">Products</a></li>
+                        <li><a class="nav-link px-2 link-dark">Inventory</a></li>
+                        <li><a class="nav-link px-2 link-dark">Customers</a></li>
+                        <li><a class="nav-link px-2 link-dark">Products</a></li>
                     </ul>
+
+
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="~/lib/AdminLTE/dist/img/avatar.png" width="32" height="32" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu text-small" style="">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
+        </header>
+    }
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - NLayerEmarket.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <div class="container-fluid col-md-10">
+        <main role="main">
+            @RenderBody()
+            <input type="hidden" id="site-url" value="@url" />
+            <input type="hidden" id="site-ID" value="@Accessor.HttpContext.Session.GetString("ID")" />
+            <input type="hidden" id="site-name" value="@Accessor.HttpContext.Session.GetString("Name")" />
+            <input type="hidden" id="site-mail" value="@Accessor.HttpContext.Session.GetString("Mail")" />
+            <input type="hidden" id="site-role" value="@Accessor.HttpContext.Session.GetString("Role")" />
+        </main>
+    </div>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\NLayerEmarket.Persistence\NLayerEmarket.Persistence.csproj" />
     <ProjectReference Include="..\NLayerEmarket.Application\NLayerEmarket.Application.csproj" />
+    <ProjectReference Include="..\NLayerEmarket.Insfastructure\NLayerEmarket.Insfastructure.csproj" />
   </ItemGroup>
 
 </Project>
