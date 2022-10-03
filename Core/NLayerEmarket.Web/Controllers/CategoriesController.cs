@@ -30,12 +30,6 @@ namespace NLayerEmarket.Web.Controllers
         {
             List<Category> categoriesList = _categoryReadRepository.GetAll().ToList();
             List<CategoryVM> categories = _mapper.Map<List<CategoryVM>>(categoriesList);
-
-            //foreach (var category in categories)
-            //{
-            //    category.Products = null;
-            //}
-
             return categories;
         }
     }

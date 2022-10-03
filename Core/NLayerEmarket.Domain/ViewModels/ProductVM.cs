@@ -21,5 +21,7 @@ namespace NLayerEmarket.Domain.ViewModels
 
         public string CategoryID { get; set; }
         public string CategoryName { get; set; }
+        
+        public int Quantity { get; set; }
     }
 }

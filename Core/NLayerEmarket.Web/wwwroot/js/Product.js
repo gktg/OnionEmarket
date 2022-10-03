@@ -62,6 +62,24 @@ function GetAllProducts() {
     })
 }
 
+function AddProductToBasket(productID) {
+    $.ajax({
+        type: "Post",
+        url: "/Basket/AddProductToBasket/" + productID,
+        dataType: "json",
+        data: null,
+        success: function (result) {
+            if (result != null) {
+                GetBasket()
+            }
+        },
+        error: function (e) {
+
+            console.log(e);
+        }
+    })
+}
+
 
 function ProductRepeated(productsList) {
     for (var x = 0; x < productsList.length; x++) {
@@ -97,7 +115,7 @@ function ProductRepeated(productsList) {
 </button>
 </div>
 </div>
-                                    <button class="form-control mt-3  btnSepet" id="${productsList[x].id}" onclick="AddToBasket(this.id)">Add to Basket</button>
+                                    <button class="form-control mt-3  btnSepet" id="${productsList[x].id}" onclick="AddProductToBasket(this.id)">Add to Basket</button>
                                 </div>
                             </div>
                         </div>`;

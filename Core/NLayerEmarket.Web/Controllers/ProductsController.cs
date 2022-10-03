@@ -56,9 +56,9 @@ namespace NLayerEmarket.Web.Controllers
                 List<Product> filterProducts = new List<Product>();
 
 
-                foreach (var item in filterCategoryList)
+                foreach (Guid item in filterCategoryList)
                 {
-                    for (var i = 0; i < productList.Count; i++)
+                    for (int i = 0; i < productList.Count; i++)
                     {
                         if (productList[i].Category.ID == item)
                         {
