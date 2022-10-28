@@ -41,17 +41,17 @@ WebApplication app = builder.Build();
 
 
 
-//if (app.Environment.IsDevelopment())
-//{
-//    using (IServiceScope scope = app.Services.CreateScope())
-//    {
-//        NLayerEmarketDbContext dbContext = scope.ServiceProvider.GetRequiredService<NLayerEmarketDbContext>();
-//        dbContext.Database.EnsureDeleted();
-//        dbContext.Database.EnsureCreated();
-//        dbContext.Database.Migrate();
-//        Bogus(dbContext);
-//    }
-//}
+if (app.Environment.IsDevelopment())
+{
+    using (IServiceScope scope = app.Services.CreateScope())
+    {
+        NLayerEmarketDbContext dbContext = scope.ServiceProvider.GetRequiredService<NLayerEmarketDbContext>();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+        dbContext.Database.Migrate();
+        Bogus(dbContext);
+    }
+}
 
 if (!app.Environment.IsDevelopment())
 {
