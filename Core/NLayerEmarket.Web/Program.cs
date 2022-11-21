@@ -8,17 +8,24 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using NLayerEmarket.Domain.Enums;
+using NLayerEmarket.Web.Models;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using NLayerEmarket.Persistence.Collections.Basket;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 
+ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddMvc();
-builder.Services.AddPersistenceServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+//ServiceRegistration
+builder.Services.AddPersistenceServices(configuration);
 
 
 builder.Services.AddSession(opt =>
@@ -41,17 +48,17 @@ WebApplication app = builder.Build();
 
 
 
-if (app.Environment.IsDevelopment())
-{
-    using (IServiceScope scope = app.Services.CreateScope())
-    {
-        NLayerEmarketDbContext dbContext = scope.ServiceProvider.GetRequiredService<NLayerEmarketDbContext>();
-        dbContext.Database.EnsureDeleted();
-        dbContext.Database.EnsureCreated();
-        dbContext.Database.Migrate();
-        Bogus(dbContext);
-    }
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    using (IServiceScope scope = app.Services.CreateScope())
+//    {
+//        NLayerEmarketDbContext dbContext = scope.ServiceProvider.GetRequiredService<NLayerEmarketDbContext>();
+//        dbContext.Database.EnsureDeleted();
+//        dbContext.Database.EnsureCreated();
+//        dbContext.Database.Migrate();
+//        Bogus(dbContext);
+//    }
+//}
 
 if (!app.Environment.IsDevelopment())
 {
@@ -121,6 +128,18 @@ void Bogus(NLayerEmarketDbContext context)
     user.Role = Role.Admin;
     user.CreatedDate = DateTime.Now;
     context.Users.Add(user);
+    context.SaveChanges();
+
+
+    var user2 = new User();
+    user2.Name = "Hasan";
+    user2.Surname = "Dönmez";
+    user2.Mail = "h@mail.com";
+    user2.Password = "+hBCBANDrxIZaywz3zTgEzSrJWuH0QEXdL6Kvku6Wic=";
+    user2.Status = DataStatus.Inserted;
+    user2.Role = Role.User;
+    user2.CreatedDate = DateTime.Now;
+    context.Users.Add(user2);
     context.SaveChanges();
 
 }

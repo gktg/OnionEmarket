@@ -46,7 +46,7 @@ namespace NLayerEmarket.Web.Controllers
         }
         [Route("/products/GetProductByCategory/")]
         [HttpPost]
-        public List<ProductVM> GetProductByCategory(List<Guid> filterCategoryList)
+        public List<ProductVM>? GetProductByCategory(List<Guid> filterCategoryList)
         {
             
             try

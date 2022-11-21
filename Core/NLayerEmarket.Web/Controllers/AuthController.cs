@@ -3,29 +3,35 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NLayerEmarket.Domain.Enums;
 using NLayerEmarket.Domain.Entities;
+using NLayerEmarket.Domain.Collections;
 using NLayerEmarket.Insfastructure.Tools;
 using System.Security.Claims;
 using NLayerEmarket.Application.Repositories;
 using NLayerEmarket.Domain.ViewModels;
+using NLayerEmarket.Application.Collections.Basket;
 
 namespace NLayerEmarket.Web.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly IUserReadRepository _userReadRepository;
 
-        public AuthController(IUserReadRepository userReadRepository)
+        private readonly IUserReadRepository _userReadRepository;
+        private readonly IBasketCollection _basketCollection;
+
+
+
+        public AuthController(IUserReadRepository userReadRepository, IBasketCollection basketCollection)
         {
             _userReadRepository = userReadRepository;
+            _basketCollection = basketCollection;
         }
 
 
         public IActionResult Login()
         {
+
             return View();
         }
-
-
 
         [Route("/auth/LoginControl/")]
         [HttpPost]
@@ -37,7 +43,7 @@ namespace NLayerEmarket.Web.Controllers
 
 
 
-            ClaimsIdentity identity = null;
+            ClaimsIdentity? identity = null;
 
             if (loginControl != null)
             {
@@ -45,6 +51,15 @@ namespace NLayerEmarket.Web.Controllers
                 HttpContext.Session.SetString("Role", (loginControl.Role.ToString()));
                 HttpContext.Session.SetString("Name", loginControl.Name + " " + loginControl.Surname);
                 HttpContext.Session.SetString("Mail", loginControl.Mail);
+
+                BasketModel? basket = _basketCollection.Get().LastOrDefault(x => x.userId == HttpContext.Session.GetString("ID"));
+
+                if (basket != null)
+                {
+                    HttpContext.Session.SetObject("Basket", basket.ProductList);
+
+                }
+
                 var usurRole = loginControl.Role;
                 switch (usurRole)
                 {
@@ -58,7 +73,7 @@ namespace NLayerEmarket.Web.Controllers
                         break;
                 };
 
-                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                ClaimsPrincipal? principal = new ClaimsPrincipal(identity);
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
                 {
                     ExpiresUtc = DateTime.Now.AddMinutes(30),
@@ -76,6 +91,20 @@ namespace NLayerEmarket.Web.Controllers
 
 
 
+        }
+
+        [Route("/auth/Logout/")]
+        public bool Logout()
+        {
+            HttpContext.Session.Remove("KisiID");
+            HttpContext.Session.Remove("Ad");
+            HttpContext.Session.Remove("Email");
+            if (HttpContext.Session.GetObject<List<ProductVM>>("Basket") != null)
+            {
+                HttpContext.Session.Remove("Basket");
+
+            }
+            return true;
         }
     }
 }

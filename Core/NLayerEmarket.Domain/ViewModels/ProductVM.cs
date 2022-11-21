@@ -9,7 +9,7 @@ namespace NLayerEmarket.Domain.ViewModels
 {
     public class ProductVM
     {
-        public Guid ID { get; set; }
+        public string ID { get; set; }
 
         public string Name { get; set; }
 

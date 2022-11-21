@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLayerEmarket.Web.Tools
+namespace NLayerEmarket.Insfastructure.Tools
 {
     public static class SessionExtentions
     {

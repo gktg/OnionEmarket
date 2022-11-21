@@ -10,14 +10,19 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using NLayerEmarket.Application.Repositories;
 using NLayerEmarket.Persistence.Repositories;
+using NLayerEmarket.Application.Collections.Basket;
+using NLayerEmarket.Persistence.Collections.Basket;
+using MongoDB.Driver;
 
 namespace NLayerEmarket.Persistence
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceServices(this IServiceCollection services)
+
+        public static void AddPersistenceServices(this IServiceCollection services, ConfigurationManager configuration)
         {
-            services.AddDbContext<NLayerEmarketDbContext>(options => options.UseSqlServer("Data Source=GKTGPC;Initial Catalog=NLayerEmarket;Integrated Security=True;"), ServiceLifetime.Singleton);
+            services.AddDbContext<NLayerEmarketDbContext>(options => options.UseSqlServer("Data Source=GKTGPC;Initial Catalog=NLayerEmarket;Integrated Security=True;"), ServiceLifetime.Singleton);    
+
 
             services.AddSingleton<IUserReadRepository,UserReadRepository>();
             services.AddSingleton<IUserWriteRepository,UserWriteRepository>();
@@ -27,10 +32,11 @@ namespace NLayerEmarket.Persistence
 
             services.AddSingleton<ICategoryReadRepository, CategoryReadRepository>();
             services.AddSingleton<ICategoryWriteRepository, CategoryWriteRepository>();
-                     
+            services.AddSingleton<IBasketCollection, BasketCollection>();
+
+            services.AddSingleton<IMongoClient>(s => new MongoClient(configuration.GetRequiredSection("MongoDbConnectionString").Value));
 
 
-            
         }
     }
 }

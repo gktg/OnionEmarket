@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using Microsoft.Extensions.Options;
+@using Microsoft.Extensions.Configuration
 
+@inject IConfiguration Configuration
 @inject IHttpContextAccessor Accessor
 
 
@@ -21,6 +23,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] E-Market</title>
@@ -116,6 +119,7 @@
             <input type="hidden" id="site-name" value="@Accessor.HttpContext.Session.GetString("Name")" />
             <input type="hidden" id="site-mail" value="@Accessor.HttpContext.Session.GetString("Mail")" />
             <input type="hidden" id="site-role" value="@Accessor.HttpContext.Session.GetString("Role")" />
+            <input type="hidden" id="deneme" value="@Configuration.GetSection("AppIdentitySettings")["Password:RequiredLength"]" />
         </main>
     </div>
     @await RenderSectionAsync("Scripts", required: false)
